@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>화장실정보</title>
+    <link rel="stylesheet" type = "text/css" href="../info.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+
+    <div class="GoHome"><a href="http://localhost:3000/">홈으로</a></div>
+
+    <main>
+        <header style="color: rgba(0, 0, 0, 0.562)">
+            <h1>화장실 정보</h1>
+        </header>
+
+        <div class = "icons">
+                <div class = "icon" id = "man"></div>
+                <div class = "icon" id = "woman"></div>
+                <div class = "icon" id = "man_disabled"></div>
+                <div class = "icon" id = "woman_disabled"></div>
+                <div class = "icon" id = "man_child"></div>
+                <div class = "icon" id = "woman_child"></div>
+        </div>
+
+        <br />
+
+        <div class = "info-container">
+            <div class = "info-box" id = "info">
+                <p>이름: <%= info.PBCTLT_PLC_NM%></p>
+                <p>개방시간: <%= info.OPEN_TM_INFO%></p>
+            </div>
+
+            <div class = "info-box">
+                부가시설 정보
+                <% if (etc == undefined) {%>
+                    <p>리뷰를 통해 정보를 추가해주세요</p>
+                <% } else {%>
+                    <p><%= etc.Total%>명 중 <%= etc.DiaperChanger%>명이 기저귀교환대가 있다고 응답했어요.</p>
+                    <p><%= etc.Total%>명 중 <%= etc.Sanitary%>명이 생리대 자판기가 있다고 응답했어요.</p>
+                    <p><%= etc.Total%>명 중 <%= etc.Camera%>명이 불법촬영 신고사례가 있다고 응답했어요.</p>
+                <% }%>
+            </div>
+        </div>
+
+        <br />
+
+        <div style="display: flex;">
+            <h3 id="rating">별점:  </h3>
+            <h3 id="rateNum" style="margin-left: 10px;"></h3>
+        </div>
+
+        <div style="display: flex;">
+            <h3 style="margin-bottom: 3px; font-weight: 400">리뷰</h3>
+        </div>
+        <div style = "width: 1000px; background-color:rgb(89, 76, 160); height: 3px;"></div>
+        <% if (comments == undefined) {%>
+            <p>
+                <p id='comment'> 아직 작성된 리뷰가 없습니다. </p>
+            </p>
+        <% } else {%>
+            <% for(var i = 0; i < comments.length; i++) {%>
+                <p>
+                    <p id='comment'>- <%= comments[i]%></p>
+                </p>
+            <% } }%>
+
+
+    </main>
+
+    <button class="open-button" onclick="openForm()">리뷰 작성하기</button>
+
+    <div class="form-popup" id="myForm">
+    <form class="form-container" action="http://localhost:3000/<%= info.PBCTLT_PLC_NM%>" method = "POST">
+        <h1>리뷰 작성하기</h1>
+
+        <div id="star_ratings">
+            <input type="radio" name = "star_rating" value="1" required>1</input>
+            <input type="radio" name = "star_rating" value="2" >2</input>
+            <input type="radio" name = "star_rating" value="3" >3</input>
+            <input type="radio" name = "star_rating" value="4" >4</input>
+            <input type="radio" name = "star_rating" value="5" >5</input>
+        </div>
+
+        <div class="plus">
+            <p>부가시설</p>
+            <div>
+                <input type="checkbox" name="diaperChanger">기저귀교환대
+            </div>
+            <div>
+                <input type="checkbox" name="sanitary">생리대 자판기
+            </div>
+            <div>
+                <input type="checkbox" name="camera">불법촬영 적발
+            </div>
+        </div>
+
+        <textarea id="area" rows="5" cols="30" name="contents" placeholder="리뷰를 입력하세요(선택)"></textarea>
+
+        <button type="submit" class="btn">작성하기</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">닫기</button>
+    </form>
+    </div>
+
+    <br />
+    <br />
+
+    <footer style="text-align: right; color: lightgrey;">
+        <div>Icons made by <a href="" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+        <div>Icons made by <a href="" title="Good Ware">Good Ware</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+        <div>Icons made by <a href="" title="Those Icons">Those Icons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+    </footer>
+
+</body>
+
+<script>
+
+    function openForm() {
+    document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+    }
+
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+
+    if ('<%= info.MALE_FEMALE_TOILET_YN%>' == 'Y') {
+        var infoNode1 = document.createElement('p');
+        var text1 = document.createTextNode('남녀공용화장실입니다.');
+        infoNode1.appendChild(text1);
+        document.getElementById("info").appendChild(infoNode1);
+    }
+
+    if ('<%=info.MALE_WTRCLS_CNT + info.MALE_UIL_CNT%>' == 0) {
+        var manIcon = document.getElementById("man");
+        manIcon.style.filter = 'grayscale(100%)';
+        manIcon.style.backgroundColor = 'lightgrey';
+    } else {
+        var infoNode1 = document.createElement('p');
+        var infoNode2 = document.createElement('p');
+        var text1 = document.createTextNode('남성용 대변기수: ' + '<%= info.MALE_WTRCLS_CNT%>');
+        var text2 = document.createTextNode('남성용 소변기수: ' + '<%= info.MALE_UIL_CNT%>');
+        infoNode1.appendChild(text1);
+        infoNode2.appendChild(text2);
+        document.getElementById("info").appendChild(infoNode1);
+        document.getElementById("info").appendChild(infoNode2);
+    }
+
+    if ('<%=info.FEMALE_WTRCLS_CNT%>' == 0) {
+        var womanIcon = document.getElementById("woman");
+        womanIcon.style.filter = 'grayscale(100%)';
+        womanIcon.style.backgroundColor = 'lightgrey';
+    } else {
+        var infoNode1 = document.createElement('p');
+        var text1 = document.createTextNode('여성용 대변기수: ' + '<%= info.FEMALE_WTRCLS_CNT%>');
+        infoNode1.appendChild(text1);
+        document.getElementById("info").appendChild(infoNode1);
+    }
+
+    if ('<%=info.MALE_DSPSN_WTRCLS_CNT + info.MALE_DSPSN_UIL_CNT%>' == 0) {
+        var manDisabledIcon = document.getElementById("man_disabled");
+        manDisabledIcon.style.filter = 'grayscale(100%)';
+        manDisabledIcon.style.backgroundColor = 'lightgrey';
+    } else {
+        var infoNode1 = document.createElement('p');
+        var infoNode2 = document.createElement('p');
+        var text1 = document.createTextNode('남성용 (장애인용) 대변기수: ' + '<%= info.MALE_DSPSN_WTRCLS_CNT%>');
+        var text2 = document.createTextNode('남성용 (장애인용) 소변기수: ' + '<%= info.MALE_DSPSN_UIL_CNT%>');
+        infoNode1.appendChild(text1);
+        infoNode2.appendChild(text2);
+        document.getElementById("info").appendChild(infoNode1);
+        document.getElementById("info").appendChild(infoNode2);
+    }
+
+    if ('<%=info.FEMALE_DSPSN_WTRCLS_CNT%>' == 0) {
+        var womanDisabledIcon = document.getElementById("woman_disabled");
+        womanDisabledIcon.style.filter = 'grayscale(100%)';
+        womanDisabledIcon.style.backgroundColor = 'lightgrey';
+    } else {
+        var infoNode1 = document.createElement('p');
+        var text1 = document.createTextNode('여성용 (장애인용) 대변기수: ' + '<%= info.FEMALE_DSPSN_WTRCLS_CNT%>');
+        infoNode1.appendChild(text1);
+        document.getElementById("info").appendChild(infoNode1);
+    }
+
+    if ('<%=info.MALE_CHILDUSE_WTRCLS_CNT + info.MALE_CHILDUSE_UIL_CNT%>' == 0) {
+        var manChildIcon = document.getElementById("man_child");
+        manChildIcon.style.filter = 'grayscale(100%)';
+        manChildIcon.style.backgroundColor = 'lightgrey';
+    } else {
+        var infoNode1 = document.createElement('p');
+        var infoNode2 = document.createElement('p');
+        var text1 = document.createTextNode('남성용 (어린이용) 대변기수: ' + '<%= info.MALE_CHILDUSE_WTRCLS_CNT%>');
+        var text2 = document.createTextNode('남성용 (어린이용) 소변기수: ' + '<%= info.MALE_CHILDUSE_UIL_CNT%>');
+        infoNode1.appendChild(text1);
+        infoNode2.appendChild(text2);
+        document.getElementById("info").appendChild(infoNode1);
+        document.getElementById("info").appendChild(infoNode2);
+    }
+
+    if ('<%=info.FEMALE_CHILDUSE_WTRCLS_CNT%>' == 0) {
+        var womanChildIcon = document.getElementById("woman_child");
+        womanChildIcon.style.filter = 'grayscale(100%)';
+        womanChildIcon.style.backgroundColor = 'lightgrey';
+    } else {
+        var infoNode1 = document.createElement('p');
+        var text1 = document.createTextNode('여성용 (어린이용) 대변기수: ' + '<%= info.FEMALE_CHILDUSE_WTRCLS_CNT%>');
+        infoNode1.appendChild(text1);
+        document.getElementById("info").appendChild(infoNode1);
+    }
+
+    let stars = parseFloat('<%= rate%>');
+    let fullstars = parseInt('<%= rate%>');
+    let leftstar = (stars - fullstars).toFixed(1);
+
+    if ('<%= rate%>' == -1) {
+        document.getElementById("rateNum").innerHTML = '아직 등록된 별점이 없습니다.';
+
+    } else {
+        for (var i = 0; i < fullstars; i++) {
+            var star = document.createElement('span');
+            star.classList.add('fa', 'fa-star');
+            star.style.color = 'gold';
+            document.getElementById("rating").appendChild(star);
+        }
+
+        if (leftstar > 0){
+            var Portion = leftstar * 10;
+            var star = document.createElement('span');
+            star.classList.add('fa', 'fa-star', 'leftstar');
+            star.style.background = `linear-gradient(to right, gold ${Portion}0%, black ${Portion}0%)`;
+            star.style['-webkit-background-clip'] = 'text';
+            star.style['-webkit-text-fill-color'] = 'transparent';
+            document.getElementById("rating").appendChild(star);
+            
+            for (var i =0; i < (5 - fullstars -1); i++ ){
+            var star = document.createElement('span');
+            star.classList.add('fa', 'fa-star');
+            document.getElementById("rating").appendChild(star);
+            }
+
+            document.getElementById("rateNum").innerHTML = '(' + '<%= rate%>' + ')';
+
+        } else {
+            for (var i =0; i < (5 - fullstars); i++ ){
+            var star = document.createElement('span');
+            star.classList.add('fa', 'fa-star');
+            document.getElementById("rating").appendChild(star);
+            }
+
+            document.getElementById("rateNum").innerHTML = '(' + '<%= rate%>' + ')';
+        }
+    }
+
+
+</script>
+
+</html>
