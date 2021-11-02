@@ -1,0 +1,31 @@
+{
+    "종합운동장": {
+        "DiaperChanger": 3,
+        "Sanitary": [],
+        "Camera": []
+    },
+    "농업기술센타": {
+        "DiaperChanger": 2,
+        "Sanitary": 2,
+        "Camera": 2,
+        "Total": 3
+    },
+    "선암주유소": {
+        "DiaperChanger": 2,
+        "Sanitary": 1,
+        "Camera": 0,
+        "Total": 2
+    },
+    "선바위역": {
+        "DiaperChanger": 0,
+        "Sanitary": 0,
+        "Camera": 1,
+        "Total": 1
+    },
+    "과천엘피지충전소": {
+        "DiaperChanger": 1,
+        "Sanitary": 1,
+        "Camera": 0,
+        "Total": 1
+    }
+}

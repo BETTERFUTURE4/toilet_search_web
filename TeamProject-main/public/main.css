@@ -1,0 +1,106 @@
+/* General */
+
+html {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #E8F5FF;
+    font-size: 15px;
+  }
+  
+
+  h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: auto;
+    margin-top : 10%;
+    text-align: center;
+    font-size : 30pt;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+  }
+
+
+body
+    {
+    color:black;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin: auto;
+    background-color:#E8F5FF;
+    width: 1020px;
+    }
+
+
+#filt{
+  color: black;
+  font-size: 10px;
+  margin-top : 5px;
+  margin-left : 69%;
+}
+
+input[type=checkbox] {
+
+  zoom: 1.5;
+  
+  }
+
+  .mapNlist {
+    display:flex;
+}
+#search {
+    margin-left: 5%;
+}
+
+a {
+  text-decoration: none;
+  color:darkblue;
+}
+
+a:hover{
+  text-decoration: underline;
+}
+
+a:visited { 
+  color: darkblue;
+}
+
+a:active { 
+  color: darkturquoise;
+}
+
+
+#loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+}
+
+.btn {
+  background-color:rgb(90, 149, 205);
+  color: white;
+  border: solid darkblue 1px;
+  border-radius:4%;
+  margin-top: 10px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+
+.btn:hover {
+  background-color: skyblue;
+}
+
+#tissue {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+  animation: jump 1.2s infinite;
+}
+
+@keyframes jump {
+  0% { transform: translate(-50%, -50%) scale(1.25, 0.75); }
+  50% { transform: translate(-50%, -150%) scale(1, 1); }
+  100% { transform: translate(-50%, -50%) scale(1.25, 0.75); }
+}
